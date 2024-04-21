@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartpoint тестовое задание</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Город</th>
+          <th>Количество жителей</th>
+          <th>Количество авто</th>
+        </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <div class="chart-container">
+        <canvas id="cityPopulationChart"></canvas>
+      </div>
+      <div class="chart-container mt-4">
+        <canvas id="populationCarRatioChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+  const data = [
+    {
+      'id': '1',
+      'city': 'Нью-Йорк',
+      'population': 8398748,
+      'cars': 2260489
+    },
+    {
+      'id': '2',
+      'city': 'Лос-Анджелес',
+      'population': 3990456,
+      'cars': 1685487
+    },
+    {
+      'id': '3',
+      'city': 'Чикаго',
+      'population': 2705994,
+      'cars': 1168746
+    },
+    {
+      'id': '4',
+      'city': 'Хьюстон',
+      'population': 2320268,
+      'cars': 897489
+    },
+    {
+      'id': '5',
+      'city': 'Филадельфия',
+      'population': 1584138,
+      'cars': 678547
+    }
+  ]
+
+  $.each(data, (index, value) => {
+    $('#table-body').append('<tr><td>' + value.city + '</td><td>' + value.population + '</td><td>' + value.cars + '</td></tr>')
+  })
+
+  const ctx1 = document.getElementById('cityPopulationChart').getContext('2d')
+  const cityPopulationChart = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels: data.map(item => item.city),
+      datasets: [{
+        label: 'Количество жителей',
+        data: data.map(item => item.population),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    }
+  })
+
+  const ctx2 = document.getElementById('populationCarRatioChart').getContext('2d')
+  const populationCarRatioChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: data.map(item => item.city),
+      datasets: [{
+        label: 'Соотношение жителей и авто',
+        data: data.map(item => item.population / item.cars),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>
